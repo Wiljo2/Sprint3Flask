@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producto</title>
-    <link rel="stylesheet" href="./css/guardaryeliminar.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/guardaryeliminar.css') }}">
 </head>
 <body>
     <div class="container">
@@ -14,9 +14,9 @@
         <p id="producto">Producto</p>
     </div>
         <div class="elementos">
-            <a href="menubo.html"><button class="buttonelementos"> Guardar </button></a> 
-            <a href="menubo.html"><button class="buttonelementos"> Eliminar</button></a>
-            <a href="menubo.html"><button class="buttonelementos"> Volver</button></a>
+            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Guardar </button></a>
+            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Eliminar</button></a>
+            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
 
     <div class="grid-container">

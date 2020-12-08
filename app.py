@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('login.html', nombre='Sebastian')
+    return render_template('login.html', nombre='')
 
 @app.route('/procesar',methods=['POST'])
 def procesar():
@@ -30,7 +30,9 @@ def enivarcontraseña():
         return men
 
 
-
+@app.route("/login")
+def login():
+    return render_template('login.html')
 
 
 @app.route('/menu')
@@ -49,6 +51,11 @@ def crearProducto():
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
+
+@app.route('/GuardaryEliminar')
+def GuardaryEliminar():
+    return render_template('GuardaryEliminar.html')
+
 
 if __name__ == '__main__':
     app.run()
