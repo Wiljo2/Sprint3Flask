@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
+</head>
+<body id ="bodyrecuperar">
+    <div id="contrecuperar" >
+        <div id="recuperar">
+            <br>
+            <br>
+            <h1>Ingrese su correo electrónico asociado a su cuenta</h1>
+            <form name ="formulario" method="post" action="{{ url_for('enivarcontraseña') }}">
+                <input type="text" placeholder = "Correo electronico" name ="correo"> <br>
+
+            <br>
+            <br>
+            <a href="login.html"><input id="buttonrecuperar" type="submit" class ="button" value="Enviar"></a> <br><br>
+            <br>
+            <br>
+            </form>
+            <h2>Se enviará una confirmación a su correo electrónico</h2>
+        </div>
+    </div>
+</body>
+</html>
