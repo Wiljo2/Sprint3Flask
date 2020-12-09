@@ -23,4 +23,7 @@ function validar_formulario(){
    else{
 	   alert("Usuario Creado con exito ");
    }
-   } 
+   }
+   function creacionextiosa(){
+		 alert("Creado correctamente");
+   }

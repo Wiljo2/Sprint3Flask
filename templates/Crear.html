@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/crear.css') }}">
-    <script src="./js/validausuario.js"></script>
+    <script src="{{ url_for('static', filename='js/validausuario.js') }}"></script>
 </head>
 <body id ="bodyrecuperar">
     <div id="contrecuperar" >
@@ -13,13 +13,13 @@
             <br>
             <br>
             <h1>Creación de Usuario</h1>
-            <form name ="formulario" method="post" action="{{ url_for('procesar') }}" onSubmit="return validar_formulario();">
+            <form name ="formulario" method="post" action="{{ url_for('procesar') }}" onSubmit="return validar_formulario()">
             <input type="text" name="email" placeholder = "Correo electronico" > <br>
             <input type="text" placeholder = "Nombre" name ="usuario"> <br>
             <input input type="password" name="password" placeholder = "Contraseña" > <br>
             <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br>
             </form>
-            <a href="{{ url_for('menu')}}"><input id="buttonrecuperar" type="button" class ="button" value="Volver"></a>
+            <a href="{{ url_for('menu')}}" onSubmit="return validar_formulario()"><input id="buttonrecuperar" type="button" class ="button" value="Volver"></a>
             <br>
             
             <h2>Se le enviará al correo del cliente su respectivo usuario y contraseña </h2>
