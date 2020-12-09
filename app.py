@@ -26,8 +26,7 @@ def enivarcontraseña():
         email = request.form['correo']
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
         yag.send(to=email, subject='Recuperacion de Contraseña', contents='Ingrese en el siguiente link para el cambio de su contraseña.<a href="www.google.com">clic aqui</a>')
-        men = "Correo de recuperacion enviado correctamente"
-        return men
+        return render_template('Login.html', nombre='')
 
 
 @app.route("/login")

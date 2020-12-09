@@ -27,3 +27,7 @@ function validar_formulario(){
    function creacionextiosa(){
 		 alert("Creado correctamente");
    }
+
+   function enviarcorreo(){
+		 alert("Envio de correo exitoso");
+   }
