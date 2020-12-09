@@ -1,8 +1,9 @@
 from flask import Flask, render_template
 import yagmail as yagmail
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from utils import isEmailValid, isUsernameValid, isPasswordValid
-
+from formulario import Contactenos
+from articulos import articulos
 app = Flask(__name__)
 
 
@@ -54,6 +55,22 @@ def recuperar():
 @app.route('/GuardaryEliminar')
 def GuardaryEliminar():
     return render_template('GuardaryEliminar.html')
+
+@app.route('/sesionlunes')
+def lunes():
+    form = Contactenos()
+    return render_template( 'contacto.html', titulo='Contactenos', form=form )
+
+@app.route('/sesion15')
+def sesion15():
+    return jsonify({"aticulos":articulos})
+
+app.route('/articulos/<string:nombrearticulo')
+def getarticulo (nombrearticulo):
+    buscar = [articulo for articulo in articulos if articulo['nombre']==nombrearticulo]
+    if (len(buscar)>8):
+        return
+    return jsonify({'message':'articulo no encontrado '})
 
 
 if __name__ == '__main__':
