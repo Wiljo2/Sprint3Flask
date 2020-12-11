@@ -1,10 +1,14 @@
-from flask import Flask, render_template
+import os
 import yagmail as yagmail
 from flask import Flask, render_template, request, jsonify
 from utils import isEmailValid, isUsernameValid, isPasswordValid
 from formulario import Contactenos
 from articulos import articulos
+from db import get_db
+
 app = Flask(__name__)
+app.secret_key = os.urandom( 24 )
+
 
 
 @app.route('/')
@@ -71,6 +75,23 @@ def getarticulo (nombrearticulo):
         return
     return jsonify({'message':'articulo no encontrado '})
 
+
+@app.route( '/register', methods=('POST', 'GET') )
+def register():
+        if request.method == 'POST':
+            usuario = request.form['usuario']
+            email = request.form['email']
+            password = request.form['password']
+            error = None
+            db = get_db()
+            db.execute(
+                'INSERT INTO usuario (usuario, correo, contraseña) VALUES (?,?,?)',
+                (usuario, email, password)
+            )
+            db.commit()
+            yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
+            yag.send(to=email, subject='Nueva cuenta', contents='Activar cuenta<a href="www.google.com">clic aqui</a>')
+            return render_template('Crear.html')
 
 if __name__ == '__main__':
     app.run()
