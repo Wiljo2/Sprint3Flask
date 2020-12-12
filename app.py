@@ -22,7 +22,7 @@ def procesar():
         email = request.form['email']
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
         yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">clic aqui</a>')
-        return render_template('Crear.html', nombre='')
+        return render_template('menubo.html')
 
 @app.route('/enivarcontraseña',methods=['POST'])
 def enivarcontraseña():
@@ -82,17 +82,20 @@ def register():
             usuario = request.form['usuario']
             email = request.form['email']
             password = request.form['password']
-            error = None
-            db = get_db()
-            db.execute(
-                'INSERT INTO usuario (usuario, correo, contraseña) VALUES (?,?,?)',
-                (usuario, email, password)
-            )
-            db.commit()
-            yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-            yag.send(to=email, subject='Nueva cuenta', contents='Activar cuenta<a href="www.google.com">clic aqui</a>')
-            return render_template('Crear.html')
+            if len(usuario) > 8 and len(password) > 8:
+                error = None
+                db = get_db()
+                db.execute(
+                    'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
+                    (usuario, email, password, False )
+                )
+                db.commit()
+                yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
+                yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+                return render_template('menubo.html')
 
+            else:
+                return render_template('Crear.html')
 if __name__ == '__main__':
     app.run()
 
