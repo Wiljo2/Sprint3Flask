@@ -60,6 +60,11 @@ def recuperar():
 def GuardaryEliminar():
     return render_template('GuardaryEliminar.html')
 
+@app.route('/GuardaryEliminarUsuario')
+def GuardaryEliminarUsuario():
+    return render_template('GuardaryEliminarUsuario.html')
+
+
 @app.route('/sesionlunes')
 def lunes():
     form = Contactenos()
@@ -88,7 +93,7 @@ def register():
                 db = get_db()
                 db.execute(
                     'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
-                    (usuario, email, password, False )
+                    (usuario, email, password, False)
                 )
                 db.commit()
                 yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
@@ -97,6 +102,36 @@ def register():
 
             else:
                 return render_template('Crear.html')
+
+@app.route( '/registerProducto', methods=('POST', 'GET') )
+def registerProducto():
+        if request.method == 'POST':
+            referencia = request.form['nombreProducto']
+            cantidad = request.form['cantidad']
+            imagen = request.form['imagen']
+            error = None
+            db = get_db()
+            db.execute(
+                'INSERT INTO producto (referencia, cantidad, imagen ) VALUES (?,?,?)',
+                (referencia, cantidad, imagen)
+            )
+            db.commit()
+
+            return render_template('menubo.html')
+
+@app.route('/verificar', methods=('POST', 'GET'))
+def verificar():
+        if request.method == 'POST':
+            usuarios = request.form['user']
+            password = request.form['password']
+            db = get_db()
+            user = db.execute('SELECT * FROM usuario WHERE usuario = ? AND contraseña = ?',
+                              (usuarios,password)).fetchall()
+            var = user[0][4]
+            if var == 1:
+                return render_template('menubo.html')
+            return render_template('menuUsuario.html.html')
+
 if __name__ == '__main__':
     app.run()
 

@@ -14,29 +14,36 @@
         <p id="producto">Producto</p>
     </div>
         <div class="elementos">
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Guardar </button></a>
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Eliminar</button></a>
+           <button class="buttonelementos" type="submit" form="CreateForm"> Crear</button>
+
             <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
-
+ <form id= "CreateForm" name ="formulario" method="post" action="{{ url_for('registerProducto') }}" >
     <div class="grid-container">
-        <div class="grid-item" id="div1">
 
-        <input type="file" name="Imagen" id="laimagen">
-        </div>
-       
-        <label>
-            Nombre: 
+            <label>
+                Nombre:
+                <br>
+                <input type="text" name="nombreProducto" placeholder="Nombre producto" >
+            </label>
             <br>
-            <input type="text" placeholder="Nombre producto" name="nombreProducto">
-        </label>
-       
-        <label>
-            Cantidad:
+
+            <label>
+                Cantidad:
             <br>
-            <input type="text" name="Cantidad" placeholder="Cantidad en stock">
-        </label>
+            <input type="text" name="cantidad" placeholder="Cantidad en stock">
+            </label>
+
+
+            <label>
+                Imagen:
+                <br>
+            <input type="text" name="imagen"  placeholder="imagen">
+            </label>
+            <!-- <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br> -->
+
     </div>
+      </form>
     </div>
 
 
