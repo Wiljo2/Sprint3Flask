@@ -24,6 +24,7 @@ def procesar():
         yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">clic aqui</a>')
         return render_template('menubo.html')
 
+
 @app.route('/enivarcontraseña',methods=['POST'])
 def enivarcontraseña():
     if request.method == 'POST':
