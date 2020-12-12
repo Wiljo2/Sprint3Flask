@@ -21,7 +21,7 @@ def procesar():
         usuario = request.form['usuario']
         email = request.form['email']
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Nueva cuenta', contents='Activar cuenta<a href="www.google.com">clic aqui</a>')
+        yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">clic aqui</a>')
         return render_template('Crear.html', nombre='')
 
 @app.route('/enivarcontraseña',methods=['POST'])
