@@ -113,6 +113,19 @@ input[type=button] {
   
   
 }
+input[type=submit] {
+  width: 80%;
+  padding: 10px 18px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: #372d28;
+  color: white;
+  border-radius: 1px;
+  outline: none;
+
+
+}
 #buttonrecuperar {
   background-color: #b97f52; /* Green */
   border: none;

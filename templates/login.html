@@ -18,6 +18,11 @@
             <br>
             <br>
             <p>Iniciar Sesión {{ nombre }}<p>
+            <section class="content">
+            {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+            {% endfor %}
+            </section>
             <form name ="formulario" method="post" action="{{ url_for('verificar') }}">
             <input type="text" placeholder = "Usuario o Correo electronico" name ="user"> <br>
             <input type="password" placeholder = "Contraseña"  name ="password"> <br> <br>

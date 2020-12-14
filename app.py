@@ -1,6 +1,7 @@
+import functools
 import os
 import yagmail as yagmail
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash
 from utils import isEmailValid, isUsernameValid, isPasswordValid
 from formulario import Contactenos
 from articulos import articulos
@@ -119,18 +120,41 @@ def registerProducto():
 
             return render_template('menubo.html')
 
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('login'))
+        return view(**kwargs)
+    return wrapped_view
+
+
 @app.route('/verificar', methods=('POST', 'GET'))
 def verificar():
+    try:
         if request.method == 'POST':
             usuarios = request.form['user']
             password = request.form['password']
             db = get_db()
             user = db.execute('SELECT * FROM usuario WHERE usuario = ? AND contraseña = ?',
                               (usuarios,password)).fetchall()
-            var = user[0][4]
-            if var == 1:
-                return render_template('menubo.html')
-            return render_template('menuUsuario.html.html')
+
+            if user is None:
+                error ='Usuario o contraseña invalido'
+            else:
+                session.clear()
+                session['user_id'] = user[0]
+                var = user[0][4]
+                if var == 1:
+                    return render_template('menubo.html')
+                if var == 0:
+                    return render_template('menuUsuario.html')
+            flash(error)
+            return render_template('login.html')
+    except:
+        return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run()
