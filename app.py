@@ -206,13 +206,14 @@ def recorrer():
 @app.route('/abrirProducto',methods=('POST', 'GET'))
 def abrirProducto():
     db = get_db()
-    id = 2
+    id = 6
     userto = db.execute('SELECT * FROM producto WHERE id = ?',
                       (id,)).fetchall()
     referencia = userto[0][1]
     cantidad = userto[0][2]
+    imagen = userto[0][3]
 
-    return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad)
+    return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
 
 
 @app.route('/logout')
