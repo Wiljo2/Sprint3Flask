@@ -13,6 +13,11 @@
             <br>
             <br>
             <h1>Creación de Usuario</h1>
+             <section class="content">
+            {% for message in get_flashed_messages() %}
+            <div class="flash">{{ error }}</div>
+            {% endfor %}
+            </section>
             <form name ="formulario" method="post" action="{{ url_for('register') }}" onSubmit="return validar_formulario()">
             <input type="text" name="email" placeholder = "Correo electronico" > <br>
             <input type="text" placeholder = "Nombre" name ="usuario"> <br>

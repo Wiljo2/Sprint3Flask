@@ -1,8 +1,9 @@
 import functools
 import os
+from validate_email import validate_email
 import yagmail as yagmail
 from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash
-from utils import isEmailValid, isUsernameValid, isPasswordValid
+from utils import isEmailValid,isUsernameValid,isPasswordValid
 from formulario import Contactenos
 from articulos import articulos
 from db import get_db
@@ -89,9 +90,29 @@ def register():
             usuario = request.form['usuario']
             email = request.form['email']
             password = request.form['password']
+            db = get_db()
+            if not isEmailValid():
+                error = "El usuario debe ser alfanumerico o incluir solo '.','_','-'"
+                flash(error)
+                return render_template('Crear.html')
+
+            if not isPasswordValid(password):
+                error = 'La contraseña debe contenir al menos una minúscula, una mayúscula, un número y 8 caracteres'
+                flash(error)
+                return render_template('Crear.html')
+
+            if not isEmailValid(email):
+                error = 'Correo invalido'
+                flash(error)
+                return render_template('Crear.html')
+
+            if db.execute('SELECT id FROM usuario WHERE correo = ?', (email,)).fetchone() is not None:
+                error = 'El correo ya existe'.format(email)
+                flash(error)
+                return render_template('Crear.html')
+
             if len(usuario) > 8 and len(password) > 8:
                 error = None
-                db = get_db()
                 db.execute(
                     'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
                     (usuario, email, password, False)
@@ -139,22 +160,31 @@ def verificar():
             db = get_db()
             user = db.execute('SELECT * FROM usuario WHERE usuario = ? AND contraseña = ?',
                               (usuarios,password)).fetchall()
-
-            if user is None:
-                error ='Usuario o contraseña invalido'
-            else:
-                session.clear()
-                session['user_id'] = user[0]
-                var = user[0][4]
-                if var == 1:
-                    return render_template('menubo.html')
-                if var == 0:
-                    return render_template('menuUsuario.html')
-            flash(error)
-            return render_template('login.html')
+            session.clear()
+            session['user_id'] = user[0]
+            var = user[0][4]
+            if var == 1:
+                return render_template('menubo.html')
+            if var == 0:
+                return render_template('menuUsuario.html')
     except:
-        return render_template('login.html')
+        message = 'Usuario o contraseña invalido'
+        flash(message)
+        return redirect(url_for('login'))
 
+@app.route('/recorre')
+def recorre():
+    db = get_db()
+    userto = db.execute(
+        'SELECT * FROM '
+    ).fetchall()
+    return render_template('menuUsuario.html', userto = userto)
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run()
