@@ -73,7 +73,7 @@ def lunes():
 
 @app.route('/sesion15')
 def sesion15():
-    return jsonify({"aticulos":articulos})
+    return jsonify({"aticulogit a":articulos})
 
 app.route('/articulos/<string:nombrearticulo')
 def getarticulo (nombrearticulo):
