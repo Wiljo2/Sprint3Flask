@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Usuarios</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/crear.css') }}">
-    <script src="{{ url_for('static', filename='js/validausuario.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='js/validausuario.js') }}"></script>-->
 </head>
 <body id ="bodyrecuperar">
     <div id="contrecuperar" >
@@ -14,7 +14,7 @@
             <br>
             <h1>Creación de Usuario</h1>
              <section class="content">
-            {% for message in get_flashed_messages() %}
+            {% for error in get_flashed_messages() %}
             <div class="flash">{{ error }}</div>
             {% endfor %}
             </section>

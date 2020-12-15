@@ -3,14 +3,13 @@ import os
 from validate_email import validate_email
 import yagmail as yagmail
 from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash
-from utils import isEmailValid,isUsernameValid,isPasswordValid
+import utils
 from formulario import Contactenos
 from articulos import articulos
 from db import get_db
 
 app = Flask(__name__)
 app.secret_key = os.urandom( 24 )
-
 
 
 @app.route('/')
@@ -86,22 +85,24 @@ def getarticulo (nombrearticulo):
 
 @app.route( '/register', methods=('POST', 'GET') )
 def register():
+    try:
         if request.method == 'POST':
             usuario = request.form['usuario']
             email = request.form['email']
             password = request.form['password']
             db = get_db()
-            if not isEmailValid():
+            error = None
+            if not utils.isEmailValid():
                 error = "El usuario debe ser alfanumerico o incluir solo '.','_','-'"
                 flash(error)
                 return render_template('Crear.html')
 
-            if not isPasswordValid(password):
+            if not utils.isPasswordValid(password):
                 error = 'La contraseña debe contenir al menos una minúscula, una mayúscula, un número y 8 caracteres'
                 flash(error)
                 return render_template('Crear.html')
 
-            if not isEmailValid(email):
+            if not utils.isEmailValid(email):
                 error = 'Correo invalido'
                 flash(error)
                 return render_template('Crear.html')
@@ -111,8 +112,6 @@ def register():
                 flash(error)
                 return render_template('Crear.html')
 
-            if len(usuario) > 8 and len(password) > 8:
-                error = None
                 db.execute(
                     'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
                     (usuario, email, password, False)
@@ -124,6 +123,10 @@ def register():
 
             else:
                 return render_template('Crear.html')
+    except:
+        error = 'Usuario o contraseña invalido'
+        flash(error)
+        return redirect(url_for('crear'))
 
 @app.route( '/registerProducto', methods=('POST', 'GET') )
 def registerProducto():
@@ -166,7 +169,7 @@ def verificar():
             if var == 1:
                 return render_template('menubo.html')
             if var == 0:
-                return render_template('menuUsuario.html')
+                return redirect(url_for('recorre'))
     except:
         message = 'Usuario o contraseña invalido'
         flash(message)
@@ -176,7 +179,7 @@ def verificar():
 def recorre():
     db = get_db()
     userto = db.execute(
-        'SELECT * FROM '
+        'SELECT * FROM producto'
     ).fetchall()
     return render_template('menuUsuario.html', userto = userto)
 
