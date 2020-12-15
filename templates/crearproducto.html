@@ -18,10 +18,9 @@
 
             <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
- <form id= "CreateForm" name ="formulario" method="post" action="{{ url_for('registerProducto') }}" >
-    <div class="grid-container">
-
-            <label>
+         <div class="grid-container">
+            <form id= "CreateForm" name ="formulario" method="post" action="{{ url_for('registerProducto') }}" enctype="multipart/form-data" >
+                <label>
                 Nombre:
                 <br>
                 <input type="text" name="nombreProducto" placeholder="Nombre producto" >
@@ -37,18 +36,15 @@
 
             <label>
                 Imagen:
-                <br>
-            <input type="text" name="imagen"  placeholder="imagen">
+                 <input type="file" name="name">
             </label>
             <!-- <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br> -->
+            </form>
+
 
     </div>
-      </form>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="name">
-            <input type="submit">
-        </form>
     </div>
+
 
 
 </body>

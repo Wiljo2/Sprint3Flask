@@ -34,9 +34,13 @@ def procesar():
 def enivarcontraseña():
     if request.method == 'POST':
         email = request.form['correo']
+        db = get_db()
+        user = db.execute('SELECT * FROM usuario WHERE correo = ?',
+                          (email,)).fetchall()
+        password = user[0][4]
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Recuperacion de Contraseña', contents='Ingrese en el siguiente link para el cambio de su contraseña.<a href="www.google.com">clic aqui</a>')
-        return render_template('Login.html', nombre='')
+        yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+        return redirect(url_for('login'))
 
 
 @app.route("/login")
@@ -111,7 +115,7 @@ def register():
             db.commit()
             yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
             yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
-            return render_template('menubo.html')
+            return redirect(url_for('recorrer'))
 
     except:
         error = 'Usuario o contraseña invalido'
@@ -123,16 +127,19 @@ def registerProducto():
         if request.method == 'POST':
             referencia = request.form['nombreProducto']
             cantidad = request.form['cantidad']
-            imagen = request.form['imagen']
             error = None
+            a = request.files['name']
+            nombre = a.filename
+            a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
+
             db = get_db()
             db.execute(
                 'INSERT INTO producto (referencia, cantidad, imagen ) VALUES (?,?,?)',
-                (referencia, cantidad, imagen)
+                (referencia, cantidad, nombre)
             )
             db.commit()
 
-            return render_template('menubo.html')
+            return redirect(url_for('recorrer'))
 
 
 def login_required(view):
@@ -184,18 +191,7 @@ def recorrer():
     return render_template('menubo.html', userto = userto)
 
 
-@app.route('/upload', methods=['POST','GET'])
-def upload():
-    if request.method == "POST":
-        a = request.files['name']
-        nombre=a.filename
-        a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
-        return redirect(url_for('get_file', filename=nombre))
 
-@app.route('/uploads/<filename>')
-def get_file(filename):
-    print(app.config['UPLOAD_FOLDER'], filename)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/logout')
 def logout():
