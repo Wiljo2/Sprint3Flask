@@ -2,14 +2,19 @@ import functools
 import os
 from validate_email import validate_email
 import yagmail as yagmail
-from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash
+from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash,send_from_directory
 import utils
 from formulario import Contactenos
 from articulos import articulos
 from db import get_db
+from werkzeug.security import generate_password_hash, check_password_hash
+from random import choice
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom( 24 )
+UPLOAD_FOLDER = os.path.abspath("./resources/")
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -89,40 +94,23 @@ def register():
         if request.method == 'POST':
             usuario = request.form['usuario']
             email = request.form['email']
-            password = request.form['password']
+            longitud = 9
+            valores = '123456789abcdefghijklmnopqrstuABCEDEFGHIJKLMNUOPARAS+-*'
+            password = ''
+            password = password.join([choice(valores) for i in range(longitud)])
+            haspass = generate_password_hash(password)
             db = get_db()
             error = None
-            if not utils.isEmailValid():
-                error = "El usuario debe ser alfanumerico o incluir solo '.','_','-'"
-                flash(error)
-                return render_template('Crear.html')
 
-            if not utils.isPasswordValid(password):
-                error = 'La contraseña debe contenir al menos una minúscula, una mayúscula, un número y 8 caracteres'
-                flash(error)
-                return render_template('Crear.html')
+            db.execute(
+                'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
+                (usuario, email, haspass, False)
+            )
+            db.commit()
+            yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
+            yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+            return render_template('menubo.html')
 
-            if not utils.isEmailValid(email):
-                error = 'Correo invalido'
-                flash(error)
-                return render_template('Crear.html')
-
-            if db.execute('SELECT id FROM usuario WHERE correo = ?', (email,)).fetchone() is not None:
-                error = 'El correo ya existe'.format(email)
-                flash(error)
-                return render_template('Crear.html')
-
-                db.execute(
-                    'INSERT INTO usuario (usuario, correo, contraseña, esadmin ) VALUES (?,?,?,?)',
-                    (usuario, email, password, False)
-                )
-                db.commit()
-                yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-                yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
-                return render_template('menubo.html')
-
-            else:
-                return render_template('Crear.html')
     except:
         error = 'Usuario o contraseña invalido'
         flash(error)
@@ -161,15 +149,17 @@ def verificar():
             usuarios = request.form['user']
             password = request.form['password']
             db = get_db()
-            user = db.execute('SELECT * FROM usuario WHERE usuario = ? AND contraseña = ?',
-                              (usuarios,password)).fetchall()
-            session.clear()
-            session['user_id'] = user[0]
+            user = db.execute('SELECT * FROM usuario WHERE usuario = ?',
+                              (usuarios, )).fetchall()
             var = user[0][4]
             if var == 1:
                 return redirect(url_for('recorrer'))
-            if var == 0:
-                return redirect(url_for('recorre'))
+            if check_password_hash(user[0][3], password):
+                session.clear()
+                session['user_id'] = user[0]
+                if var == 0:
+                    return redirect(url_for('recorre'))
+
     except:
         message = 'Usuario o contraseña invalido'
         flash(message)
@@ -199,4 +189,18 @@ def logout():
 
 if __name__ == '__main__':
     app.run()
+
+
+@app.route('/upload', methods=['POST','GET'])
+def upload():
+    if request.method == "POST":
+        a = request.files['name']
+        nombre=a.filename
+        a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
+        return redirect(url_for('get_file', filename=nombre))
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+    print(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
