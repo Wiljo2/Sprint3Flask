@@ -2,7 +2,8 @@ import functools
 import os
 from validate_email import validate_email
 import yagmail as yagmail
-from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash,send_from_directory
+from flask import Flask, render_template, request, jsonify, redirect, session, send_file, g, url_for, flash, \
+    send_from_directory
 import utils
 from formulario import Contactenos
 from articulos import articulos
@@ -10,27 +11,28 @@ from db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
 from random import choice
 
-
 app = Flask(__name__)
-app.secret_key = os.urandom( 24 )
+app.secret_key = os.urandom(24)
 UPLOAD_FOLDER = os.path.abspath("./carpeta/")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 @app.route('/')
 def index():
     return render_template('login.html', nombre='')
 
-@app.route('/procesar',methods=['POST'])
+
+@app.route('/procesar', methods=['POST'])
 def procesar():
     if request.method == 'POST':
         usuario = request.form['usuario']
         email = request.form['email']
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">clic aqui</a>')
+        yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">click aquí</a>')
         return render_template('menubo.html')
 
 
-@app.route('/enivarcontraseña',methods=['POST'])
+@app.route('/enivarcontraseña', methods=['POST'])
 def enivarcontraseña():
     if request.method == 'POST':
         email = request.form['correo']
@@ -39,7 +41,8 @@ def enivarcontraseña():
                           (email,)).fetchall()
         password = user[0][4]
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+        yag.send(to=email, subject='Nueva cuenta',
+                 contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
         return redirect(url_for('login'))
 
 
@@ -52,6 +55,7 @@ def login():
 def menu():
     return render_template('menubo.html')
 
+
 @app.route('/crear')
 def crear():
     return render_template('crear.html')
@@ -61,40 +65,44 @@ def crear():
 def crearProducto():
     return render_template('crearproducto.html')
 
+
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
+
 
 @app.route('/GuardaryEliminar')
 def GuardaryEliminar():
     return render_template('GuardaryEliminar.html')
 
+
 @app.route('/GuardaryEliminarUsuario')
 def GuardaryEliminarUsuario():
     return render_template('GuardaryEliminarUsuario.html')
 
-@app.route('/PRUEBA')
-def PRUEBA():
-    return render_template('prueba.html')
 
 @app.route('/sesionlunes')
 def lunes():
     form = Contactenos()
-    return render_template( 'contacto.html', titulo='Contactenos', form=form )
+    return render_template('contacto.html', titulo='Contactenos', form=form)
+
 
 @app.route('/sesion15')
 def sesion15():
-    return jsonify({"aticulogit a":articulos})
+    return jsonify({"aticulogit a": articulos})
+
 
 app.route('/articulos/<string:nombrearticulo')
-def getarticulo (nombrearticulo):
-    buscar = [articulo for articulo in articulos if articulo['nombre']==nombrearticulo]
-    if (len(buscar)>8):
+
+
+def getarticulo(nombrearticulo):
+    buscar = [articulo for articulo in articulos if articulo['nombre'] == nombrearticulo]
+    if (len(buscar) > 8):
         return
-    return jsonify({'message':'articulo no encontrado '})
+    return jsonify({'message': 'articulo no encontrado '})
 
 
-@app.route( '/register', methods=('POST', 'GET') )
+@app.route('/register', methods=('POST', 'GET'))
 def register():
     try:
         if request.method == 'POST':
@@ -114,7 +122,8 @@ def register():
             )
             db.commit()
             yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-            yag.send(to=email, subject='Nueva cuenta',contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+            yag.send(to=email, subject='Nueva cuenta',
+                     contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
             return redirect(url_for('recorrer'))
 
     except:
@@ -122,24 +131,25 @@ def register():
         flash(error)
         return redirect(url_for('crear'))
 
-@app.route( '/registerProducto', methods=('POST', 'GET') )
+
+@app.route('/registerProducto', methods=('POST', 'GET'))
 def registerProducto():
-        if request.method == 'POST':
-            referencia = request.form['nombreProducto']
-            cantidad = request.form['cantidad']
-            error = None
-            a = request.files['name']
-            nombre = a.filename
-            a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
+    if request.method == 'POST':
+        referencia = request.form['nombreProducto']
+        cantidad = request.form['cantidad']
+        error = None
+        a = request.files['name']
+        nombre = a.filename
+        a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
 
-            db = get_db()
-            db.execute(
-                'INSERT INTO producto (referencia, cantidad, imagen ) VALUES (?,?,?)',
-                (referencia, cantidad, nombre)
-            )
-            db.commit()
+        db = get_db()
+        db.execute(
+            'INSERT INTO producto (referencia, cantidad, imagen ) VALUES (?,?,?)',
+            (referencia, cantidad, nombre)
+        )
+        db.commit()
 
-            return redirect(url_for('recorrer'))
+        return redirect(url_for('recorrer'))
 
 
 def login_required(view):
@@ -148,6 +158,7 @@ def login_required(view):
         if g.user is None:
             return redirect(url_for('login'))
         return view(**kwargs)
+
     return wrapped_view
 
 
@@ -159,7 +170,7 @@ def verificar():
             password = request.form['password']
             db = get_db()
             user = db.execute('SELECT * FROM usuario WHERE usuario = ?',
-                              (usuarios, )).fetchall()
+                              (usuarios,)).fetchall()
             var = user[0][4]
             if var == 1:
                 return redirect(url_for('recorrer'))
@@ -174,13 +185,15 @@ def verificar():
         flash(message)
         return redirect(url_for('login'))
 
+
 @app.route('/recorre')
 def recorre():
     db = get_db()
     userto = db.execute(
         'SELECT * FROM producto'
     ).fetchall()
-    return render_template('menuUsuario.html', userto = userto)
+    return render_template('menuUsuario.html', userto=userto)
+
 
 @app.route('/recorrer')
 def recorrer():
@@ -188,9 +201,17 @@ def recorrer():
     userto = db.execute(
         'SELECT * FROM producto'
     ).fetchall()
-    return render_template('menubo.html', userto = userto)
+    return render_template('menubo.html', userto=userto)
 
-
+@app.route('/abrirProducto',methods=('POST', 'GET'))
+def abrirProducto():
+    db = get_db()
+    id = 2
+    userto = db.execute('SELECT * FROM producto WHERE id = ?',
+                      (id,)).fetchall()
+    referencia = userto[0][1]
+    cantidad = userto[0][2]
+    return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad)
 
 
 @app.route('/logout')
@@ -198,6 +219,6 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+
 if __name__ == '__main__':
     app.run()
-

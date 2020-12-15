@@ -19,19 +19,22 @@
     </div>
 
     <div class="grid-container">
-        <div class="grid-item" id="div1"> <img src="./img/descarga (1).jpg" alt=""> </div>
-       
+        <div class="grid-item" id="div1"> <img src="{{url_for('static', filename= imagen )}}" alt=""> </div>
+       <form name ="formulario" method="GET">
         <label>
-            Nombre: 
+            Referencia:
             <br>
-            <input type="text" placeholder="Nombre producto" name="nombreProducto">
+            <input type="text" name="nombreProducto" value="{{ referencia }}" >
         </label>
-       
+    <br>
         <label>
             Cantidad:
             <br>
-            <input type="text" name="Cantidad" placeholder="Cantidad en stock">
+            <input type="text" name="Cantidad"  value="{{ cantidad }}">
         </label>
+       </form>
+
+
     </div>
     </div>
 
