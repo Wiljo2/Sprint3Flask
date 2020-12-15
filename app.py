@@ -167,7 +167,7 @@ def verificar():
             session['user_id'] = user[0]
             var = user[0][4]
             if var == 1:
-                return render_template('menubo.html')
+                return redirect(url_for('recorrer'))
             if var == 0:
                 return redirect(url_for('recorre'))
     except:
@@ -182,6 +182,14 @@ def recorre():
         'SELECT * FROM producto'
     ).fetchall()
     return render_template('menuUsuario.html', userto = userto)
+
+@app.route('/recorrer')
+def recorrer():
+    db = get_db()
+    userto = db.execute(
+        'SELECT * FROM producto'
+    ).fetchall()
+    return render_template('menubo.html', userto = userto)
 
 
 @app.route('/logout')
