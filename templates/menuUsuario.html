@@ -23,13 +23,21 @@
 
     <div class="grid-container">
 
-        <table>
-            {%  for u in userto %}
-            <tr>
-                {%  for i in u %}
-                <td>{{ i }}</td>
-
-                {%  endfor %}
+       <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Referencia</th>
+                    <th scope="col">Cantidad/th>
+                    <th scope="col">Imagen</th>
+                </tr>
+            </thead>
+                {%  for u in userto %}
+                <tr>
+                    <td>{{ u[0]}}</td>
+                    <td>{{ u[1] }}</td>
+                    <td>{{ u[2] }}</td>
+                    <td>{{ u[3] }}</td>
             </tr>
             {%  endfor %}
         </table>

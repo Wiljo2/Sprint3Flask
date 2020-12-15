@@ -211,6 +211,7 @@ def abrirProducto():
                       (id,)).fetchall()
     referencia = userto[0][1]
     cantidad = userto[0][2]
+
     return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad)
 
 
