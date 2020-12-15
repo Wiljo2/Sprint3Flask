@@ -2,7 +2,7 @@ import functools
 import os
 from validate_email import validate_email
 import yagmail as yagmail
-from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash
+from flask import Flask, render_template, request, jsonify,redirect,session,send_file,g,url_for,flash,send_from_directory
 import utils
 from formulario import Contactenos
 from articulos import articulos
@@ -10,7 +10,8 @@ from db import get_db
 
 app = Flask(__name__)
 app.secret_key = os.urandom( 24 )
-
+UPLOAD_FOLDER = os.path.abspath("./carpeta/")
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
@@ -65,6 +66,9 @@ def GuardaryEliminar():
 def GuardaryEliminarUsuario():
     return render_template('GuardaryEliminarUsuario.html')
 
+@app.route('/PRUEBA')
+def PRUEBA():
+    return render_template('prueba.html')
 
 @app.route('/sesionlunes')
 def lunes():
@@ -191,6 +195,19 @@ def recorrer():
     ).fetchall()
     return render_template('menubo.html', userto = userto)
 
+
+@app.route('/upload', methods=['POST','GET'])
+def upload():
+    if request.method == "POST":
+        a = request.files['name']
+        nombre=a.filename
+        a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
+        return redirect(url_for('get_file', filename=nombre))
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+    print(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/logout')
 def logout():
