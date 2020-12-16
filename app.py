@@ -28,7 +28,8 @@ def procesar():
         usuario = request.form['usuario']
         email = request.form['email']
         yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Nueva cuenta', contents='Activar cuentaz<a href="www.google.com">click aquí</a>')
+        yag.send(to=email, subject='Nueva cuenta',
+                 contents='Para activar cuenta click aquí <a href="www.google.com"></a>')
         return render_template('menubo.html')
 
 
@@ -177,7 +178,6 @@ def verificar():
             if var == 1 and var1 == password:
                 return redirect(url_for('recorrer'))
 
-
             if check_password_hash(user[0][3], password):
                 session.clear()
                 session['user_id'] = user[0]
@@ -212,33 +212,35 @@ def recorrer():
     ).fetchall()
     return render_template('menubo.html', userto=userto)
 
-@app.route('/abrirProducto',methods=('POST', 'GET'))
+
+@app.route('/abrirProducto', methods=('POST', 'GET'))
 def abrirProducto():
     db = get_db()
     id = request.form['error']
     userto = db.execute('SELECT * FROM producto WHERE id = ?',
-                      (id,)).fetchall()
+                        (id,)).fetchall()
     referencia = userto[0][1]
     cantidad = userto[0][2]
     imagen = userto[0][3]
 
     return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
 
-@app.route('/abrirProductoAdmin',methods=('POST', 'GET'))
+
+@app.route('/abrirProductoAdmin', methods=('POST', 'GET'))
 def abrirProductoAdmin():
     db = get_db()
     id = request.form['error']
     userto = db.execute('SELECT * FROM producto WHERE id = ?',
-                      (id,)).fetchall()
+                        (id,)).fetchall()
     referencia = userto[0][1]
     cantidad = userto[0][2]
     imagen = userto[0][3]
 
     return render_template('GuardaryEliminar.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
 
-@app.route('/actualizarDatos',methods=('UPDATE', 'GET'))
-def actualizarDatos():
 
+@app.route('/actualizarDatos', methods=('UPDATE', 'GET'))
+def actualizarDatos():
     if request.method == 'UPDATE':
         referencias = request.form['nombreProducto']
         cantidad = request.form['cantidad']
@@ -274,8 +276,6 @@ def actualizarDatosAdmin():
 def logout():
     session.clear()
     return redirect(url_for('login'))
-
-
 
 
 if __name__ == '__main__':

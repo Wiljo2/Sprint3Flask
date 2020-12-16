@@ -7,27 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/crear.css') }}">
     <script src="{{ url_for('static', filename='js/validausuario.js') }}"></script>
 </head>
-<body id ="bodyrecuperar">
-    <div id="contrecuperar" >
-        <div id="recuperar">
-            <br>
-            <br>
-            <h1>Creación de Usuario</h1>
-             <section class="content">
+<body id="bodyrecuperar">
+<div id="contrecuperar">
+    <div id="recuperar">
+        <br>
+        <br>
+        <h1>Creación de Usuario</h1>
+        <section class="content">
             {% for error in get_flashed_messages() %}
-            <div class="flash">{{ error }}</div>
+                <div class="flash">{{ error }}</div>
             {% endfor %}
-            </section>
-            <form name ="formulario" method="post" action="{{ url_for('register') }}" onSubmit="return validar_formulario()">
-            <input type="text" name="email" placeholder = "Correo electronico" > <br>
-            <input type="text" placeholder = "Usuario" name ="usuario"> <br>
-            <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br>
-            </form>
-            <a href="{{ url_for('recorrer')}}"><input  id="buttonrecuperar" type="button" class ="button" value="Volver"></a>
-            <br>
-            
-            <h2>La contraseña se crea automaticamente y se le enviará al correo con su respectivo usuario </h2>
-        </div>
+        </section>
+        <form name="formulario" method="post" action="{{ url_for('register') }}" onSubmit="return validar_formulario()">
+            <input type="text" name="email" placeholder="Correo electronico"> <br>
+            <input type="text" placeholder="Usuario" name="usuario"> <br>
+            <input id="buttonrecuperar" type="submit" class="button" value="Crear"><br>
+        </form>
+        <a href="{{ url_for('recorrer') }}"><input id="buttonrecuperar" type="button" class="button" value="Volver"></a>
+        <br>
+
+        <h2>La contraseña se crea automaticamente y se le enviará al correo con su respectivo usuario </h2>
     </div>
+</div>
 </body>
 </html>
