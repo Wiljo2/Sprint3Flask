@@ -7,23 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
     <script src="{{ url_for('static', filename='js/validausuario.js') }}"></script>
 </head>
-<body id ="bodyrecuperar">
-    <div id="contrecuperar" >
-        <div id="recuperar">
-            <br>
-            <br>
-            <h1>Ingrese su correo electrónico asociado a su cuenta</h1>
-            <form name ="formulario" method="post" action="{{ url_for('enivarcontraseña') }}    "onSubmit=" return enviarcorreo()" >
-                <input type="text" placeholder = "Correo electronico" name ="correo"> <br>
+<body id="bodyrecuperar">
+<div id="contrecuperar">
+    <div id="recuperar">
+        <br>
+        <br>
+        <h1>Ingrese el correo electrónico asociado a su cuenta</h1>
+        <form name="formulario" method="post" action="{{ url_for('enivarcontraseña') }}    "
+              onSubmit=" return enviarcorreo()">
+            <input type="text" placeholder="Correo electronico" name="correo"> <br>
 
             <br>
             <br>
-            <a href="{{ url_for('login')}}" ><input onSubmit="enviarcorreo()" id="buttonrecuperar" type="submit" class ="button" value="Enviar" ></a> <br><br>
+            <a href="{{ url_for('login') }}"><input onSubmit="enviarcorreo()" id="buttonrecuperar" type="submit"
+                                                    class="button" value="Enviar"></a> <br><br>
             <br>
             <br>
-            </form>
-            <h2>Se enviará una confirmación a su correo electrónico</h2>
-        </div>
+        </form>
+        <h2>Se enviará una confirmación a su correo electrónico</h2>
     </div>
+</div>
 </body>
 </html>

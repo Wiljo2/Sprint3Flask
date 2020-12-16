@@ -30,17 +30,19 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Referencia</th>
-                    <th scope="col">Cantidad/th>
+                    <th scope="col">Cantidad</th>
                     <th scope="col">Imagen</th>
                 </tr>
             </thead>
                 {%  for u in userto %}
                 <tr>
-                    <td>{{ u[0]}}</td>
+                    <form  name ="formulario" method="post" action="{{ url_for('abrirProductoAdmin') }}">
+                    <td><input type="text" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
                     <td>{{ u[1] }}</td>
                     <td>{{ u[2] }}</td>
-                    <td><img src="{{url_for('static', filename= "img/carpeta/"+ u[3])}}"/> </td>
-
+                    <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= "img/carpeta/"+ u[3])}}"/> </td>
+                    <td><input id="buttonrecuperar" type="submit" class ="button" value="editar"> </td>
+                    </form>
             </tr>
             {%  endfor %}
         </table>

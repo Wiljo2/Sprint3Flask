@@ -7,24 +7,24 @@
 <body>
 <h1>Contáctenos</h1>
 {% block contenido %}
-    <form >
-         <p>
-      {{ form.nombre.label }}<br>
-      {{ form.nombre(size=30)}}<br>
-    </p>
-<p>
-      {{ form.correo.label }}<br>
-      {{ form.correo(size=30) }}<br>
-    </p>
-    <p>
-      {{ form.mensaje.label }}<br>
-      {{ form.mensaje(size=30)}}<br>
-    </p>
-         <p>
-      {{ form.password.label }}<br>
-      {{ form.password(size=30)}}<br>
-    </p>
-      <p>{{ form.enviar() }}</p>
+    <form>
+        <p>
+            {{ form.nombre.label }}<br>
+            {{ form.nombre(size=30) }}<br>
+        </p>
+        <p>
+            {{ form.correo.label }}<br>
+            {{ form.correo(size=30) }}<br>
+        </p>
+        <p>
+            {{ form.mensaje.label }}<br>
+            {{ form.mensaje(size=30) }}<br>
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=30) }}<br>
+        </p>
+        <p>{{ form.enviar() }}</p>
     </form>
 {% endblock %}
 

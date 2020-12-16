@@ -7,33 +7,35 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;800&display=swap"
+          rel="stylesheet">
     <title>Login</title>
 </head>
 <body>
-    <div class="grid-container">
-        <div class="grid-item" id="cont1">
-        </div>
-        <div class="grid-item" id="cont2">
-            <br>
-            <br>
-            <p>Iniciar Sesión {{ nombre }}<p>
-            <section class="content">
-            {% for message in get_flashed_messages() %}
-            <div class="flash">{{ message }}</div>
-            {% endfor %}
-            </section>
-            <form name ="formulario" method="post" action="{{ url_for('verificar') }}">
-            <input type="text" placeholder = "Usuario o Correo electronico" name ="user"> <br>
-            <input type="password" placeholder = "Contraseña"  name ="password"> <br> <br>
-            <input type="submit" class ="button" value="Ingresar"><br><br>
-            <br>
-            </form>
-
-            <a href="{{ url_for('recuperar') }}">¿Olvidaste tu Contraseña?</a
-            <br><br><br>
-            
-         </div>
+<div class="grid-container">
+    <div class="grid-item" id="cont1">
     </div>
+    <div class="grid-item" id="cont2">
+        <br>
+        <br>
+        <p>Iniciar Sesión {{ nombre }}
+        <p>
+            <section class="content">
+                {% for message in get_flashed_messages() %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </section>
+        <form name="formulario" method="post" action="{{ url_for('verificar') }}">
+            <input type="text" placeholder="Usuario o Correo electronico" name="user"> <br>
+            <input type="password" placeholder="Contraseña" name="password"> <br> <br>
+            <input type="submit" class="button" value="Ingresar"><br><br>
+            <br>
+        </form>
+
+        <a href="{{ url_for('recuperar') }}">¿Olvidaste tu Contraseña?</a
+        <br><br><br>
+
+    </div>
+</div>
 </body>
 </html>

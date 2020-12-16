@@ -15,18 +15,18 @@
     </div>
         <div class="elementos">
             <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Actualizar Datos </button></a>
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
+            <a href="{{ url_for('recorre') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img src="{{url_for('static', filename= "img/carpeta/"+imagen) }}" />
+            <img style="width: 130px; height: 130px" img src="{{url_for('static', filename= "img/carpeta/"+imagen) }}" />
         </div>
-       <form name ="formulario" method="GET">
+               <form name ="formulario" method="post" action="{{ url_for('actualizarDatos') }}">
         <label>
             Referencia:
             <br>
-            <input type="text" name="nombreProducto" readonly="readonly" value="{{ referencia }}" >
+            <input type="text" name="nombreProducto" value="{{ referencia }}" >
         </label>
     <br>
         <label>
@@ -34,6 +34,7 @@
             <br>
             <input type="text" name="Cantidad"  value="{{ cantidad }}">
         </label>
+            <input id="buttonrecuperar" type="submit" class ="button" value="Actualizar Datos">
        </form>
 
 
