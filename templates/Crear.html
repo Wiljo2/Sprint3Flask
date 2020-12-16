@@ -20,14 +20,13 @@
             </section>
             <form name ="formulario" method="post" action="{{ url_for('register') }}" onSubmit="return validar_formulario()">
             <input type="text" name="email" placeholder = "Correo electronico" > <br>
-            <input type="text" placeholder = "Nombre" name ="usuario"> <br>
-            <input input type="password" name="password" placeholder = "Contraseña" > <br>
+            <input type="text" placeholder = "Usuario" name ="usuario"> <br>
             <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br>
             </form>
-            <a href="{{ url_for('menu')}}"><input  id="buttonrecuperar" type="button" class ="button" value="Volver"></a>
+            <a href="{{ url_for('recorrer')}}"><input  id="buttonrecuperar" type="button" class ="button" value="Volver"></a>
             <br>
             
-            <h2>Se le enviará al correo del cliente su respectivo usuario y contraseña </h2>
+            <h2>La contraseña se crea automaticamente y se le enviará al correo con su respectivo usuario </h2>
         </div>
     </div>
 </body>

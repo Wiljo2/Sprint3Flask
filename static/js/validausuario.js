@@ -13,13 +13,7 @@ function validar_formulario(){
 	   alert("Debes ingresar un correo electronico valido!");
    
    }
-	var p = password1.value.length;
-   
-	if (p == 0 || p < 8)
-	{
-	   alert("Debes ingresar una clave con mas de 8 caracteres");
-   
-	}
+
 
 
    }
