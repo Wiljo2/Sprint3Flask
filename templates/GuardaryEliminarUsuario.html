@@ -22,11 +22,11 @@
         <div class="grid-item" id="div1">
             <img src="{{url_for('static', filename= "img/carpeta/"+imagen) }}" />
         </div>
-       <form name ="formulario" method="post">
+               <form name ="formulario" method="post" action="{{ url_for('actualizarDatos') }}">
         <label>
             Referencia:
             <br>
-            <input type="text" name="nombreProducto" readonly="readonly" value="{{ referencia }}" >
+            <input type="text" name="nombreProducto" value="{{ referencia }}" >
         </label>
     <br>
         <label>
@@ -34,6 +34,7 @@
             <br>
             <input type="text" name="Cantidad"  value="{{ cantidad }}">
         </label>
+            <input id="buttonrecuperar" type="submit" class ="button" value="Actualizar Datos">
        </form>
 
 

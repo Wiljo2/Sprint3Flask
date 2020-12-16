@@ -253,6 +253,23 @@ def actualizarDatos():
     return redirect(url_for('recorre'))
 
 
+@app.route('/actualizarDatosAdmin',methods=('UPDATE', 'GET'))
+def actualizarDatosAdmin():
+
+    if request.method == 'UPDATE':
+        referencias = request.form['nombreProducto']
+        cantidad = request.form['cantidad']
+        error = None
+        db = get_db()
+        db.execute(
+            'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
+            (cantidad, referencias)
+        )
+        db.commit()
+
+    return redirect(url_for('recorrer'))
+
+
 @app.route('/logout')
 def logout():
     session.clear()
