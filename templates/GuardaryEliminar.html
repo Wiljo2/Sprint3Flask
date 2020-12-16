@@ -7,39 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/guardaryeliminar.css') }}">
 </head>
 <body>
-    <div class="container">
+<div class="container">
 
     <div class="header">
         <br>
         <p id="producto">Producto</p>
     </div>
-        <div class="elementos">
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Actualizar Datos </button></a>
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Eliminar</button></a>
-            <a href="{{ url_for('recorrer') }}"><button class="buttonelementos"> Volver</button></a>
+    <div class="elementos">
+        <a href="{{ url_for('menu') }}">
+            <button class="buttonelementos"> Actualizar Datos</button>
+        </a>
+        <a href="{{ url_for('menu') }}">
+            <button class="buttonelementos"> Eliminar</button>
+        </a>
+        <a href="{{ url_for('recorrer') }}">
+            <button class="buttonelementos"> Volver</button>
+        </a>
     </div>
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img src="{{url_for('static', filename="img/carpeta/"+imagen) }}"/>
+            <img src="{{ url_for('static', filename="img/carpeta/"+imagen) }}"/>
         </div>
-       
+
         <form>
-        <label>
-            Referencia:
+            <label>
+                Referencia:
+                <br>
+                <input type="text" name="nombreProducto" value="{{ referencia }}">
+            </label>
             <br>
-            <input type="text" name="nombreProducto" value="{{ referencia }}" >
-        </label>
-    <br>
-        <label>
-            Cantidad:
-            <br>
-            <input type="text" name="Cantidad"  value="{{ cantidad }}">
-        </label>
-       </form>
+            <label>
+                Cantidad:
+                <br>
+                <input type="text" name="Cantidad" value="{{ cantidad }}">
+            </label>
+        </form>
 
     </div>
-    </div>
+</div>
 
 
 </body>
