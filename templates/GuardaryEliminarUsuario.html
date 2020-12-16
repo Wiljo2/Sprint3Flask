@@ -19,7 +19,9 @@
     </div>
 
     <div class="grid-container">
-        <div class="grid-item" id="div1"> <img src="{{url_for('carpeta', filename= "imagen" )}}" alt=""> </div>
+        <div class="grid-item" id="div1">
+            <img src="{{url_for('static', filename= "img/carpeta/"+imagen) }}" />
+        </div>
        <form name ="formulario" method="GET">
         <label>
             Referencia:

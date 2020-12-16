@@ -13,7 +13,7 @@ from random import choice
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-UPLOAD_FOLDER = os.path.abspath("./carpeta/")
+UPLOAD_FOLDER = os.path.abspath("./static/img")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
