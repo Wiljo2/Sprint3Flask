@@ -16,14 +16,14 @@
         <div class="elementos">
            <button class="buttonelementos" type="submit" form="CreateForm"> Crear</button>
 
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
+            <a href="{{ url_for('recorrer') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
          <div class="grid-container">
             <form id= "CreateForm" name ="formulario" method="post" action="{{ url_for('registerProducto') }}" enctype="multipart/form-data" >
                 <label>
                 Nombre:
                 <br>
-                <input type="text" name="nombreProducto" placeholder="Nombre producto" value = {{  }} >
+                <input type="text" name="nombreProducto" placeholder="Nombre producto" >
             </label>
             <br>
 

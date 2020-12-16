@@ -16,12 +16,12 @@
         <div class="elementos">
             <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Actualizar Datos </button></a>
             <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Eliminar</button></a>
-            <a href="{{ url_for('menu') }}"><button class="buttonelementos"> Volver</button></a>
+            <a href="{{ url_for('recorrer') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img src="{{url_for('static', filename="img/carpeta/"+imagen) }}" />
+            <img src="{{url_for('static', filename="img/carpeta/"+imagen) }}"/>
         </div>
        
         <form>

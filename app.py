@@ -13,7 +13,7 @@ from random import choice
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-UPLOAD_FOLDER = os.path.abspath("./static/img")
+UPLOAD_FOLDER = os.path.abspath("./static/img/carpeta")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -172,13 +172,22 @@ def verificar():
             user = db.execute('SELECT * FROM usuario WHERE usuario = ?',
                               (usuarios,)).fetchall()
             var = user[0][4]
-            if var == 1:
+            var1 = user[0][3]
+
+            if var == 1 and var1 == password:
                 return redirect(url_for('recorrer'))
+
+
             if check_password_hash(user[0][3], password):
                 session.clear()
                 session['user_id'] = user[0]
                 if var == 0:
                     return redirect(url_for('recorre'))
+
+            else:
+                message = 'Usuario o contraseña invalido'
+                flash(message)
+                return redirect(url_for('login'))
 
     except:
         message = 'Usuario o contraseña invalido'
@@ -206,7 +215,7 @@ def recorrer():
 @app.route('/abrirProducto',methods=('POST', 'GET'))
 def abrirProducto():
     db = get_db()
-    id = 6
+    id = request.form['error']
     userto = db.execute('SELECT * FROM producto WHERE id = ?',
                       (id,)).fetchall()
     referencia = userto[0][1]
@@ -215,11 +224,41 @@ def abrirProducto():
 
     return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
 
+@app.route('/abrirProductoAdmin',methods=('POST', 'GET'))
+def abrirProductoAdmin():
+    db = get_db()
+    id = request.form['error']
+    userto = db.execute('SELECT * FROM producto WHERE id = ?',
+                      (id,)).fetchall()
+    referencia = userto[0][1]
+    cantidad = userto[0][2]
+    imagen = userto[0][3]
+
+    return render_template('GuardaryEliminar.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
+
+@app.route('/actualizarDatos',methods=('UPDATE', 'GET'))
+def actualizarDatos():
+
+    if request.method == 'UPDATE':
+        referencias = request.form['nombreProducto']
+        cantidad = request.form['cantidad']
+        error = None
+        db = get_db()
+        db.execute(
+            'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
+            (cantidad, referencias)
+        )
+        db.commit()
+
+    return redirect(url_for('recorre'))
+
 
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
 
 
 if __name__ == '__main__':
