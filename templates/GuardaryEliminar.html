@@ -14,23 +14,21 @@
         <p id="producto">Producto</p>
     </div>
     <div class="elementos">
-        <a href="{{ url_for('menu') }}">
-            <button class="buttonelementos"> Actualizar Datos</button>
-        </a>
-        <a href="{{ url_for('eliminar') }}">
-            <button class="buttonelementos"> Eliminar</button>
-        </a>
+
+            <button class="buttonelementos" type="submit" form="CreateForm" formaction="{{ url_for('actualizarDatosAdmin') }}" > Actualizar </button>
+
+            <button class="buttonelementos" type="submit" form="CreateForm" formaction="{{ url_for('eliminar') }}"> Eliminar</button>
         <a href="{{ url_for('recorrer') }}">
-            <button class="buttonelementos"> Volver</button>
+            <button class="buttonelementos"  > Volver</button>
         </a>
     </div>
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img style="width: 130px; height: 130px" img src="{{url_for('static', filename="img/carpeta/"+imagen) }}"/>
+            <img style="width: 130px; height: 130px" img src="{{url_for('static', filename='img/carpeta/'+imagen) }}" alt ="imagen del producto"/>
         </div>
 
-        <form name="formulario" method="post" action="{{ url_for('actualizarDatosAdmin') }}">
+        <form id="CreateForm" name="formulario" method="post" action="{{ url_for('actualizarDatosAdmin') }}">
             <label>
                 Referencia:
                 <br>
