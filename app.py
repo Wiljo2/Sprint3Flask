@@ -141,12 +141,13 @@ def registerProducto():
         error = None
         a = request.files['name']
         nombre = a.filename
+        disponible = "Editar"
         a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
 
         db = get_db()
         db.execute(
-            'INSERT INTO producto (referencia, cantidad, imagen ) VALUES (?,?,?)',
-            (referencia, cantidad, nombre)
+            'INSERT INTO producto (referencia, cantidad, imagen , disponible ) VALUES (?,?,?,?)',
+            (referencia, cantidad, nombre, disponible)
         )
         db.commit()
 
@@ -280,6 +281,19 @@ def actualizarDatosAdmin():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+@app.route('/eliminar', methods=('POST', 'GET'))
+def eliminar():
+    try:
+        db = get_db()
+        db.execute(
+            'UPDATE producto SET disponible = "No disponible" WHERE id = ?', (id, )
+        )
+        db.commit()
+        return redirect(url_for('recorrer'))
+    except:
+        return redirect(url_for('recorrer'))
 
 
 if __name__ == '__main__':

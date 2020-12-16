@@ -32,6 +32,7 @@
                     <th scope="col">Referencia</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Imagen</th>
+
                 </tr>
             </thead>
                 {%  for u in userto %}
@@ -41,7 +42,7 @@
                     <td>{{ u[1] }}</td>
                     <td>{{ u[2] }}</td>
                     <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= "img/carpeta/"+ u[3])}}"/> </td>
-                    <td><input id="buttonrecuperar" type="submit" class ="button" value="editar"> </td>
+                    <td><input id="buttonrecuperar" type="submit" class ="button" value="{{ u[4] }}"> </td>
                     </form>
             </tr>
             {%  endfor %}
