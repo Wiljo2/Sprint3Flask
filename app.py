@@ -230,46 +230,53 @@ def abrirProducto():
 def abrirProductoAdmin():
     db = get_db()
     id = request.form['error']
-    userto = db.execute('SELECT * FROM producto WHERE id = ?',
-                        (id,)).fetchall()
+    userto = db.execute('SELECT * FROM producto WHERE id = ?', (id,)).fetchall()
     referencia = userto[0][1]
     cantidad = userto[0][2]
     imagen = userto[0][3]
 
-    return render_template('GuardaryEliminar.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
+    return render_template('GuardaryEliminar.html', referencia=referencia, cantidad=cantidad, imagen=imagen, id=id)
 
 
-@app.route('/actualizarDatos', methods=('UPDATE', 'GET'))
+@app.route('/actualizarDatos', methods=('POST', 'GET'))
 def actualizarDatos():
-    if request.method == 'UPDATE':
-        referencias = request.form['nombreProducto']
-        cantidad = request.form['cantidad']
-        error = None
-        db = get_db()
-        db.execute(
-            'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
-            (cantidad, referencias)
-        )
-        db.commit()
+    try:
+        if request.method == 'POST':
+            referencias = request.form['nombreProducto']
+            cantidad = request.form['cantidad']
+            error = None
+            db = get_db()
+            db.execute(
+                'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
+                (cantidad, referencias)
+            )
+            db.commit()
 
-    return redirect(url_for('recorre'))
+            return redirect(url_for('recorre'))
+    except:
+        return redirect(url_for('recorrer'))
 
 
-@app.route('/actualizarDatosAdmin',methods=('UPDATE', 'GET'))
+@app.route('/actualizarDatosAdmin', methods=('POST', 'GET'))
 def actualizarDatosAdmin():
+    try:
+        if request.method == 'POST':
+            referencias = request.form['nombreProducto']
+            cantidad = request.form['Cantidad']
 
-    if request.method == 'UPDATE':
-        referencias = request.form['nombreProducto']
-        cantidad = request.form['cantidad']
-        error = None
-        db = get_db()
-        db.execute(
-            'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
-            (cantidad, referencias)
-        )
-        db.commit()
+            error = None
+            db = get_db()
+            db.execute('UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ', (cantidad, referencias))
+            """
+            db.execute('UPDATE producto SET cantidad = (?) WHERE referencia = (?)', (cantidad, referencias))
+                orden = 'UPDATE producto SET cantidad = ' + cantidad + " WHERE referencia = " + referencias
+            db.execute(orden)
+            )"""
+            db.commit()
+            return redirect(url_for('recorrer'))
+    except:
+        return redirect(url_for('recorrer'))
 
-    return redirect(url_for('recorrer'))
 
 
 @app.route('/logout')
