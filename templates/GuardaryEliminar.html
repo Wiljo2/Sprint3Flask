@@ -21,7 +21,7 @@
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img src="{{url_for('static', filename="img/carpeta/"+imagen) }}"/>
+            <img style="width: 130px; height: 130px" img src="{{url_for('static', filename="img/carpeta/"+imagen) }}"/>
         </div>
        
         <form name ="formulario" method="post" action="{{ url_for('actualizarDatosAdmin') }}">
