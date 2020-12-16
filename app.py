@@ -223,7 +223,7 @@ def abrirProducto():
     cantidad = userto[0][2]
     imagen = userto[0][3]
 
-    return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad, imagen=imagen)
+    return render_template('GuardaryEliminarUsuario.html', referencia=referencia, cantidad=cantidad, imagen=imagen,id=id)
 
 
 @app.route('/abrirProductoAdmin', methods=('POST', 'GET'))
@@ -243,18 +243,18 @@ def actualizarDatos():
     try:
         if request.method == 'POST':
             referencias = request.form['nombreProducto']
-            cantidad = request.form['cantidad']
+            cantidades = request.form['Cantidad']
+            id = request.form['id']
             error = None
             db = get_db()
             db.execute(
-                'UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ',
-                (cantidad, referencias)
-            )
+                    'UPDATE producto SET cantidad = ? WHERE id = ?', (cantidades, id)
+                )
             db.commit()
 
             return redirect(url_for('recorre'))
     except:
-        return redirect(url_for('recorrer'))
+        return redirect(url_for('recorre'))
 
 
 @app.route('/actualizarDatosAdmin', methods=('POST', 'GET'))
@@ -262,16 +262,13 @@ def actualizarDatosAdmin():
     try:
         if request.method == 'POST':
             referencias = request.form['nombreProducto']
-            cantidad = request.form['Cantidad']
-
+            cantidades = request.form['Cantidad']
+            id = request.form['id']
             error = None
             db = get_db()
-            db.execute('UPDATE producto SET (cantidad) VALUES (?) WHERE referencia=? ', (cantidad, referencias))
-            """
-            db.execute('UPDATE producto SET cantidad = (?) WHERE referencia = (?)', (cantidad, referencias))
-                orden = 'UPDATE producto SET cantidad = ' + cantidad + " WHERE referencia = " + referencias
-            db.execute(orden)
-            )"""
+            db.execute(
+                'UPDATE producto SET cantidad = ?, referencia = ? WHERE id = ?', (cantidades,referencias, id)
+            )
             db.commit()
             return redirect(url_for('recorrer'))
     except:
