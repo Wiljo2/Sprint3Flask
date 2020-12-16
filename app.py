@@ -56,7 +56,7 @@ def menu():
     return render_template('menubo.html')
 
 
-@app.route('/crear')
+@app.route("/crear")
 def crear():
     return render_template('crear.html')
 
