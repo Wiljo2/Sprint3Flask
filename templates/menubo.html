@@ -38,7 +38,7 @@
                 {%  for u in userto %}
                 <tr>
                     <form  name ="formulario" method="post" action="{{ url_for('abrirProductoAdmin') }}">
-                        <td><input type="button"  style="border:0px" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
+                        <td><input type="text"  style="border:0px" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
                         <td>{{ u[1] }}</td>
                         <td>{{ u[2] }}</td>
                         <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= 'img/carpeta/'+ u[3])}}"/> </td>
