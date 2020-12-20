@@ -14,28 +14,31 @@
         <p id="producto">Producto</p>
     </div>
         <div class="elementos">
-            <button class="buttonelementos" type="submit"  form="CreateForm" formaction="{{ url_for('actualizarDatos') }}" > Actualizar Datos </button>
+            <button class="buttonelementos" type="submit"  form="CreateForm" formaction="{{ url_for('actualizarDatos') }}" > Actualizar  </button>
             <a href="{{ url_for('recorre') }}"><button class="buttonelementos"> Volver</button></a>
     </div>
 
     <div class="grid-container">
         <div class="grid-item" id="div1">
-            <img src="{{url_for('static', filename='img/carpeta/'+imagen) }}" />
+            <img style="width: 130px; height: 130px" img src="{{url_for('static', filename='img/carpeta/'+imagen) }}" alt ="imagen del producto"/>
         </div>
               <form id="CreateForm" name="formulario" method="post" enctype="multipart/form-data">
             <label>
                 Referencia:
                 <br>
-                <input type="text" name="nombreProducto" value="{{ referencia }}">
+                <input type="text" readonly="readonly" name="nombreProducto" value="{{ referencia }}">
             </label>
             <br>
             <label>
                 Cantidad:
                 <br>
                 <input type="text" name="Cantidad" value="{{ cantidad }}">
-                <input type="text" name="id" value="{{ id }}">
+            <br>
+
+                Id:
+                <br>
+                <input type="text" readonly="readonly"   name="id" value="{{ id }}">
             </label>
-            <input id="buttonrecuperar" type="submit" class="button" value="Actualizar Datos">
         </form>
 
 

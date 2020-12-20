@@ -17,7 +17,7 @@
 
     </div>
     <div class="elementos">
-        <input class="elbuscar" type="text" placeholder="Buscar Producto" name="correo">
+        <input class="elbuscar" type="text" placeholder="Buscar Producto" >
         <a href="{{ url_for('login') }}">
             <button class="buttonelementos">Cerrar sesión</button>
         </a>
@@ -38,7 +38,7 @@
             {% for u in userto %}
                 <tr>
                     <form  name ="formulario" method="post" action="{{ url_for('abrirProducto') }}">
-                        <td><input type="text" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
+                        <td><input type="text"  style="border:0px" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
                         <td>{{ u[1] }}</td>
                         <td>{{ u[2] }}</td>
                         <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= 'img/carpeta/'+ u[3])}}"/> </td>

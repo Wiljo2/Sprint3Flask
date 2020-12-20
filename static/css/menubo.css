@@ -111,4 +111,9 @@
   align-items: flex-end;
  }
 
-  
+.table{
+  opacity: .9;
+}
+.td{
+  opacity: .9;
+}
