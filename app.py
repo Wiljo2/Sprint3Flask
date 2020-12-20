@@ -35,17 +35,19 @@ def procesar():
 
 @app.route('/enivarcontraseña', methods=['POST'])
 def enivarcontraseña():
-    if request.method == 'POST':
-        email = request.form['correo']
-        db = get_db()
-        user = db.execute('SELECT * FROM usuario WHERE correo = ?',
+    try:
+        if request.method == 'POST':
+            email = request.form['correo']
+            db = get_db()
+            user = db.execute('SELECT * FROM usuario WHERE correo = ?',
                           (email,)).fetchall()
-        password = user[0][4]
-        yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-        yag.send(to=email, subject='Nueva cuenta',
+            password = user[0][4]
+            yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
+            yag.send(to=email, subject='Nueva cuenta',
                  contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+            return redirect(url_for('login'))
+    except:
         return redirect(url_for('login'))
-
 
 @app.route("/login")
 def login():
@@ -59,7 +61,7 @@ def menu():
 
 @app.route("/crear")
 def crear():
-    return render_template('crear.html')
+    return render_template('Crear.html')
 
 
 @app.route('/crearProducto')
@@ -69,7 +71,7 @@ def crearProducto():
 
 @app.route('/recuperar')
 def recuperar():
-    return render_template('recuperar.html')
+    return render_template('Recuperar.html')
 
 
 @app.route('/GuardaryEliminar')
@@ -135,23 +137,28 @@ def register():
 
 @app.route('/registerProducto', methods=('POST', 'GET'))
 def registerProducto():
-    if request.method == 'POST':
-        referencia = request.form['nombreProducto']
-        cantidad = request.form['cantidad']
-        error = None
-        a = request.files['name']
-        nombre = a.filename
-        disponible = "Editar"
-        a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
+    try:
+        if request.method == 'POST':
+            referencia = request.form['nombreProducto']
+            cantidad = request.form['cantidad']
+            error = None
+            a = request.files['name']
+            nombre = a.filename
+            disponible = "Editar"
+            a.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre))
 
-        db = get_db()
-        db.execute(
-            'INSERT INTO producto (referencia, cantidad, imagen , disponible ) VALUES (?,?,?,?)',
-            (referencia, cantidad, nombre, disponible)
-        )
-        db.commit()
+            db = get_db()
+            db.execute(
+                'INSERT INTO producto (referencia, cantidad, imagen , disponible ) VALUES (?,?,?,?)',
+                (referencia, cantidad, nombre, disponible)
+            )
+            db.commit()
 
-        return redirect(url_for('recorrer'))
+            return redirect(url_for('recorrer'))
+    except:
+        message = 'Debe llenar todos los campos e insertar una imagen'
+        flash(message)
+        return redirect(url_for('crearProducto'))
 
 
 def login_required(view):

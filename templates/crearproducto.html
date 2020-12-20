@@ -42,6 +42,11 @@
                 <input type="file" name="name">
             </label>
             <!-- <input id="buttonrecuperar" type="submit" class ="button" value="Crear"><br> -->
+            <section class="content">
+                {% for message in get_flashed_messages() %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </section>
         </form>
 
 
