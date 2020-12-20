@@ -28,7 +28,7 @@
             <img style="width: 130px; height: 130px" img src="{{url_for('static', filename='img/carpeta/'+imagen) }}" alt ="imagen del producto"/>
         </div>
 
-        <form id="CreateForm" name="formulario" method="post" action="{{ url_for('actualizarDatosAdmin') }}">
+        <form id="CreateForm" name="formulario" method="post" >
             <label>
                 Referencia:
                 <br>
@@ -39,9 +39,12 @@
                 Cantidad:
                 <br>
                 <input type="text" name="Cantidad" value="{{ cantidad }}">
-                <input type="text" name="id" value="{{ id }}">
+            <br>
+
+                Id:
+                <br>
+                <input type="text"   name="id" value="{{ id }}">
             </label>
-            <input id="buttonrecuperar" type="submit" class="button" value="Actualizar Datos">
         </form>
 
     </div>

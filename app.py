@@ -293,12 +293,14 @@ def logout():
 @app.route('/eliminar', methods=('POST', 'GET'))
 def eliminar():
     try:
-        db = get_db()
-        db.execute(
-            'UPDATE producto SET disponible = "No disponible" WHERE id = ?', (id, )
-        )
-        db.commit()
-        return redirect(url_for('recorrer'))
+        if request.method == 'POST':
+            ide = request.form['id']
+            db = get_db()
+            db.execute(
+                'UPDATE producto SET disponible = "No disponible" WHERE id = ?', (ide, )
+            )
+            db.commit()
+            return redirect(url_for('recorrer'))
     except:
         return redirect(url_for('recorrer'))
 
