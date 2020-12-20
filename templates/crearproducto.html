@@ -14,15 +14,14 @@
         <p id="producto">Producto</p>
     </div>
     <div class="elementos">
-        <button class="buttonelementos" type="submit" form="CreateForm"> Crear</button>
+        <button class="buttonelementos" type="submit" form="CreateForm" formaction="{{ url_for('registerProducto') }}"> Crear</button>
 
         <a href="{{ url_for('recorrer') }}">
             <button class="buttonelementos"> Volver</button>
         </a>
     </div>
     <div class="grid-container">
-        <form id="CreateForm" name="formulario" method="post" action="{{ url_for('registerProducto') }}"
-              enctype="multipart/form-data">
+        <form id="CreateForm" name="formulario" method="post"  enctype="multipart/form-data">
             <label>
                 Nombre:
                 <br>

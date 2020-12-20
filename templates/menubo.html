@@ -38,13 +38,18 @@
                 {%  for u in userto %}
                 <tr>
                     <form  name ="formulario" method="post" action="{{ url_for('abrirProductoAdmin') }}">
-                    <td><input type="text" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
-                    <td>{{ u[1] }}</td>
-                    <td>{{ u[2] }}</td>
-                    <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= "img/carpeta/"+ u[3])}}"/> </td>
-                    <td><input id="buttonrecuperar" type="submit" class ="button" value="{{ u[4] }}"> </td>
+                        <td><input type="text"  style="border:0px" readonly="readonly" value="{{ u[0] }}" name ="error"></td>
+                        <td>{{ u[1] }}</td>
+                        <td>{{ u[2] }}</td>
+                        <td><img style="width: 80px; height: 80px" src="{{url_for('static', filename= 'img/carpeta/'+ u[3])}}"/> </td>
+                        {% if u[4] == "No disponible" %}
+                            <td class="table-danger"><input id="buttonrecuperar" type="submit"  style="border:0px" disabled="disabled" class ="button"  value="{{ u[4] }}"> </td>
+                        {% else %}
+                            <td><input id="buttonrecuperar_1" type="submit" class ="button" value="{{ u[4] }}" > </td>
+                        {% endif %}
+
                     </form>
-            </tr>
+                </tr>
             {%  endfor %}
         </table>
 
