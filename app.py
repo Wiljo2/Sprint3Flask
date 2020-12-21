@@ -35,19 +35,19 @@ def procesar():
 
 @app.route('/enivarcontraseña', methods=['POST'])
 def enivarcontraseña():
-    try:
+
         if request.method == 'POST':
             email = request.form['correo']
             db = get_db()
             user = db.execute('SELECT * FROM usuario WHERE correo = ?',
                           (email, )).fetchall()
-            password = user[0][4]
+
+            password = user[0][3]
             yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
-            yag.send(to=email, subject='Nueva cuenta',
+            yag.send(to=email, subject='Recuperar Contraseña',
                  contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
             return redirect(url_for('login'))
-    except:
-        return redirect(url_for('login'))
+
 
 @app.route("/login")
 def login():
