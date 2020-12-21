@@ -1,7 +1,7 @@
 import functools
 import os
 from validate_email import validate_email
-import yagmail
+import yagmail as yagmail
 from flask import Flask, render_template, request, jsonify, redirect, session, send_file, g, url_for, flash, \
     send_from_directory
 import utils
@@ -16,7 +16,7 @@ app.secret_key = os.urandom(24)
 UPLOAD_FOLDER = os.path.abspath("./static/img/carpeta")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
+##sfasfa
 @app.route('/')
 def index():
     return render_template('login.html', nombre='')
@@ -40,7 +40,7 @@ def enivarcontraseña():
             email = request.form['correo']
             db = get_db()
             user = db.execute('SELECT * FROM usuario WHERE correo = ?',
-                          (email,)).fetchall()
+                          (email, )).fetchall()
             password = user[0][4]
             yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
             yag.send(to=email, subject='Nueva cuenta',
@@ -126,7 +126,7 @@ def register():
             db.commit()
             yag = yagmail.SMTP('proyectosprint3@gmail.com', 'qwaszx013654')
             yag.send(to=email, subject='Nueva cuenta',
-                     contents='Para su registro esta son sus credenciales <br> Correo:' + email + '<br> Contraseña:' + password)
+                     contents='Para su registro esta son sus credenciales <br> Usuario:' + usuario + '<br> Contraseña:' + password)
             return redirect(url_for('recorrer'))
 
     except:
