@@ -1,7 +1,8 @@
+from app import app as application
 import functools
 import os
 from validate_email import validate_email
-import yagmail
+import yagmail as yagmail
 from flask import Flask, render_template, request, jsonify, redirect, session, send_file, g, url_for, flash, \
     send_from_directory
 import utils
@@ -305,5 +306,6 @@ def eliminar():
         return redirect(url_for('recorrer'))
 
 
-if __name__ == '__main__':
-    app.run()
+
+if __name__ == "__main__":
+    app = application

@@ -1,0 +1,13 @@
+[unit]
+Description=Instancio de Gunicorn
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/Sprint3Flask
+Environment="PATH=cd"
+ExecStart=sudo /home/ubuntu/Sprint3Flask/script.sh  
+
+[Install]
+WantedBy=multi-user.target
